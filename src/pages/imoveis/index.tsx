@@ -1,5 +1,6 @@
-import { GetServerSideProps, GetStaticPaths } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import CardImmobile, { Immobile } from "../../components/CardImmobile";
+import api from "../../services/api";
 
 
 
@@ -28,6 +29,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
+export const getStaticProps: GetStaticProps = async () => {
+  const { data } = await api.get('/imoveis');
+  return {
+    props: {
+      properties: data,
+    },
+    revalidate: 60 * 5 // 5 minutes
+  }
+}
 // export const getServerSideProps: GetServerSideProps = ({ req, params }) => {
 
 
